@@ -1,0 +1,20 @@
+<html>
+	<head>
+		<title>planetarium-webGL</title>
+	</head>
+	<body>
+		<div id="control">
+			<button id="animButton" onclick="stop=!stop">Animate</button>
+			<button id="fullscreenButton"onclick="toggleFullscreen()">Fullscreen</button>
+			<select name="qualityPresetForm" onclick="setQualittyPreset()"></select>
+		</div>
+
+
+		<script src="libs/three.min.js"></script>
+		<script src="libs/OrbitControls.js"></script>
+		<script src="libs/Lensflare.js"></script>
+		<script src="libs/ConvexGeometry.js"></script>
+        <script src="data.js"></script>
+        <script src="main.js"></script>
+	</body>
+</html>
