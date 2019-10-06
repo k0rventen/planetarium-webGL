@@ -227,10 +227,23 @@ function createRings(rings, pointOfReference) {
 }
 
 function toggleFullscreen(){
-    var elem = document.getElementById('canvas');
-if (elem.requestFullscreen) {
-  elem.requestFullscreen();
+    var elem = canvasEl;
+    if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+    } else if (elem.mozRequestFullScreen) { /* Firefox */
+        elem.mozRequestFullScreen();
+    } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+        elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) { /* IE/Edge */
+        elem.msRequestFullscreen();
+    }
+    renderer.setSize( document.body.clientWidth, document.body.offsetHeight );
 }
+
+function exitFullscreen() {
+    if (document.webkitIsFullScreen || document.mozFullScreen || document.msFullscreenElement !== null) {
+        renderer.setSize( canvasEl.offsetWidth, document.body.clientHeight );
+    }
 }
 
 function onWindowResize() {
@@ -271,3 +284,12 @@ createPlanets(planets);
 createAsteroids(asteroids);
 console.log(planetsInfos);
 animate();
+
+window.onload = function() {
+    if (document.addEventListener) {
+        document.addEventListener('fullscreenchange', exitFullscreen, false);
+        document.addEventListener('mozfullscreenchange', exitFullscreen, false);
+        document.addEventListener('MSFullscreenChange', exitFullscreen, false);
+        document.addEventListener('webkitfullscreenchange', exitFullscreen, false);
+    }    
+};
