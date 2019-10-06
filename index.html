@@ -1,15 +1,37 @@
 <html>
 	<head>
 		<title>planetarium-webGL</title>
+		<link rel="stylesheet" href="libs/css/bulma.min.css">
+		<link rel="stylesheet" href="stylish.css">
 	</head>
 	<body>
-		<div id="control">
-			<button id="animButton" onclick="stop=!stop">Animate</button>
-			<button id="fullscreenButton"onclick="toggleFullscreen()">Fullscreen</button>
-			<select name="qualityPresetForm" onclick="setQualittyPreset()"></select>
+		<div class="columns">
+			<main id="canvas" class="column is-three-quarters"></main>
+			<aside id="control" class="column">
+				<a id="animButton" class="button is-danger" onclick="stop=!stop">Animate</a>
+				<a id="fullscreenButton" class="button is-danger" onclick="toggleFullscreen()">Fullscreen</a>
+				<div class="field">
+					<div class="control">
+						<div class="select is-danger">
+							<select name="qualityPresetForm" onclick="setQualittyPreset()">
+								<option>Select quality preset</option>
+								<option>Low</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="field">
+					<div class="control">
+						<div class="select is-danger">
+							<select>
+								<option>Select planets</option>
+								<option>Earth</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</aside>
 		</div>
-
-
 		<script src="libs/three.min.js"></script>
 		<script src="libs/OrbitControls.js"></script>
 		<script src="libs/Lensflare.js"></script>

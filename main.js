@@ -41,7 +41,7 @@ function deg2rad(deg) { return deg * (Math.PI / 180); }
 
 
 // Init the scene, renderer, camera and controls
-function sceneInit() {
+function sceneInit(canvasEl) {
 
     // INit the scene
     scene = new THREE.Scene();
@@ -58,7 +58,7 @@ function sceneInit() {
     
 
     // Init the camera
-    camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.01, 1000);
+    camera = new THREE.PerspectiveCamera(90, canvasEl.offsetWidth / document.body.clientHeight, 0.01, 1000);
     camera.position.z = 40;
     camera.position.x = 40;
     camera.position.y = 40;
@@ -70,7 +70,7 @@ function sceneInit() {
     //raycaster = new THREE.Raycaster();
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setPixelRatio(window.devicePixelRatio / 1);
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(canvasEl.offsetWidth, document.body.clientHeight);
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
@@ -78,7 +78,7 @@ function sceneInit() {
     renderer.gammaInput = true;
     renderer.gammaOutput = true;
     // confiugure the HTML document and listeners
-    document.body.appendChild(renderer.domElement);
+    canvasEl.appendChild(renderer.domElement);
     //document.addEventListener( 'click', onDocumentMouseMove, false );
 
 }
@@ -227,17 +227,16 @@ function createRings(rings, pointOfReference) {
 }
 
 function toggleFullscreen(){
-    console.log("going fullscreen");
-    var elem = document.body;
+    var elem = document.getElementById('canvas');
 if (elem.requestFullscreen) {
   elem.requestFullscreen();
 }
 }
 
 function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.aspect = canvasEl.offsetWidth / document.body.clientHeight;
     camera.updateProjectionMatrix();
-    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.setSize( canvasEl.offsetWidth, document.body.clientHeight );
 }
 
 function setQualittyPreset(){
@@ -265,8 +264,9 @@ function animate() {
 }
 
 
-sceneInit();
-window.addEventListener( 'resize', onWindowResize, false );
+const canvasEl = document.getElementById('canvas');
+sceneInit(canvasEl);
+window.addEventListener( 'resize', onWindowResize(canvasEl), false );
 createPlanets(planets);
 createAsteroids(asteroids);
 console.log(planetsInfos);
