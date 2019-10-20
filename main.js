@@ -30,6 +30,114 @@ var defaultQualityPreset = qualityPresets['low']
 // also used to store the pivotPoint object
 var planetsInfos = {};
 
+const selectPlanets = document.getElementsByName('planets');
+selectPlanets[0].options.add(new Option('Select planet', ''));
+const details = document.getElementById('details');
+let planetsWanted = ['mercure', 'venus', 'terre', 'mars', 'jupiter', 'saturne', 'uranus', 'neptune'];
+const url = 'https://api.le-systeme-solaire.net/rest.php/bodies';
+planetsWanted.forEach((planetInfos) => {
+    selectPlanets[0].options.add(new Option(planetInfos, planetInfos));
+    fetch(url+'/'+planetInfos)
+    .then(function(response) {
+        if (response.status !== 200) {
+            console.log('Looks like there was a problem. Status Code: ' + response.status);
+            return;
+        }
+        response.json().then(function(data) {
+            console.log(data);
+            var planetContainer = document.createElement("div");
+            planetContainer.setAttribute("class", 'planet');
+            planetContainer.setAttribute("data-id", data.id);
+            planetContainer.setAttribute("style", 'display:none;');
+
+            var tree = document.createDocumentFragment();
+            var planet = document.createElement("div");
+            planet.appendChild(document.createTextNode('Planète : '+data.name));
+
+            var discoveredBy = document.createElement("div");
+            discoveredBy.appendChild(document.createTextNode('Nom(s) du découvreur de l\'astre : '+data.discoveredBy));
+
+            var discoveryDate = document.createElement("div");
+            discoveryDate.appendChild(document.createTextNode('Date de découverte de l\'astre : '+data.discoveryDate));
+
+            var moons = document.createElement("div");
+            moons.appendChild(document.createTextNode('Nombre de satellites de l\'astre : '+(data.moons !== null ? data.moons.length : 0)));
+
+            var density = document.createElement("div");
+            density.appendChild(document.createTextNode('La dentité de l\'astre en g.cm3 : '+data.density));
+
+            var gravity = document.createElement("div");
+            gravity.appendChild(document.createTextNode('La gravité de surface en m.s-2 : '+data.gravity));
+
+            var semimajorAxis = document.createElement("div");
+            semimajorAxis.appendChild(document.createTextNode('Le demi grand axe en kilomètres : '+data.semimajorAxis));
+
+            var perihelion = document.createElement("div");
+            perihelion.appendChild(document.createTextNode('Le périhélie en kilomètres : '+data.perihelion));
+
+            var apheion = document.createElement("div");
+            apheion.appendChild(document.createTextNode('L\'aphélie en kilomètres : '+data.apheion));
+
+            var eccentricity = document.createElement("div");
+            eccentricity.appendChild(document.createTextNode('L\'excentricité orbitale : '+data.eccentricity));
+
+            var inclination = document.createElement("div");
+            inclination.appendChild(document.createTextNode('L\'inclinaison orbitale en degrés : '+data.inclination));
+
+            var mass = document.createElement("div");
+            mass.appendChild(document.createTextNode('La masse de l\'objet en 10n kg : '+data.mass.massValue+' '+data.mass.massExponent));
+
+            var vol = document.createElement("div");
+            vol.appendChild(document.createTextNode('Le Volume  de l\'objet en 10n kg : '+data.vol.volValue+' '+data.vol.volExponent));
+
+            var escape = document.createElement("div");
+            escape.appendChild(document.createTextNode('La vitesse d\'échappement en m.s-1 : '+data.escape));
+
+            var meanRadius = document.createElement("div");
+            meanRadius.appendChild(document.createTextNode('Le rayon moyen en kilomètres : '+data.meanRadius));
+
+            var equaRadius = document.createElement("div");
+            equaRadius.appendChild(document.createTextNode('Le rayon équatorial en kilomètres : '+data.equaRadius));
+
+            var polarRadius = document.createElement("div");
+            polarRadius.appendChild(document.createTextNode('Le rayon polaire en kilomètres : '+data.polarRadius));
+
+            var flattening = document.createElement("div");
+            flattening.appendChild(document.createTextNode('L\'aplatissement : '+data.flattening));
+
+            var dimension = document.createElement("div");
+            dimension.appendChild(document.createTextNode('Dimension de l\'astre en kilomètres sur 3 axes X, Y et Z pour les astres non sphériques : '+data.dimension));
+
+            var sideralOrbit = document.createElement("div");
+            sideralOrbit.appendChild(document.createTextNode('La période le révolution de l\'astre autour d\'un autre astre (le Soleil ou une planète) en jours terrestres : '+data.sideralOrbit));
+
+            var sideralRotation = document.createElement("div");
+            sideralRotation.appendChild(document.createTextNode('La période de rotation de l\'astre, le temps nécessaire pour astre pour réaliser un tour sur lui même, en heure : '+data.sideralRotation));
+
+            tree.appendChild(planet);
+            if (data.discoveredBy !== "") tree.appendChild(discoveredBy);
+            if (data.discoveryDate !== "") tree.appendChild(discoveryDate);
+            tree.appendChild(moons);
+            tree.appendChild(density);
+            tree.appendChild(gravity);
+            tree.appendChild(semimajorAxis);
+            tree.appendChild(eccentricity);
+            tree.appendChild(mass);
+            tree.appendChild(vol);
+            tree.appendChild(escape);
+            tree.appendChild(meanRadius);
+            if (data.dimension !== "") tree.appendChild(dimension);
+            tree.appendChild(sideralOrbit);
+            tree.appendChild(sideralRotation);
+            planetContainer.appendChild(tree);
+            details.appendChild(planetContainer);
+        });
+    })
+    .catch(function(error) {
+        console.log('Fetch Error :-S', error);
+    });
+});
+
 // Same deal for the asteroids belts
 var asteroidsInfos = {};
 
