@@ -44,7 +44,6 @@ planetsWanted.forEach((planetInfos) => {
             return;
         }
         response.json().then(function(data) {
-            console.log(data);
             var planetContainer = document.createElement("div");
             planetContainer.setAttribute("class", 'planet');
             planetContainer.setAttribute("data-id", data.id);
@@ -196,7 +195,6 @@ function createPlanets(ObjectOfplanets, pointOfReference) {
 
     for (var planet in ObjectOfplanets) {
         var currentplanet = ObjectOfplanets[planet];
-        console.log("Generating " + planet);
 
         // If pointOfReference is not defined, create one
         if (pointOfReference === undefined) {
@@ -218,7 +216,6 @@ function createPlanets(ObjectOfplanets, pointOfReference) {
 
         // Is it a star ? 
         if (currentplanet.light !== undefined) {
-            console.log(planet + " is a star, adding Pointlight !");
             var light = new THREE.PointLight(0xffffff, 2, 0, 2);
             light.castShadow = true;
             light.shadow.mapSize.width = 512;  // default
@@ -261,13 +258,11 @@ function createPlanets(ObjectOfplanets, pointOfReference) {
 
         // Does it have moons ? if so, createplanets on those as well !
         if (currentplanet.moons !== undefined) {
-            console.log(planet + " has moons, let's create them !");
             createPlanets(currentplanet.moons, mesh);
         }
 
         // Does it have rings ?
         if (currentplanet.rings !== undefined) {
-            console.log(planet + " has rings, let's create them !");
             createRings(currentplanet.rings, mesh);
         }
 
@@ -294,7 +289,6 @@ function createAsteroids(asteroids) {
     for (var asteroid in asteroids) {
 
         var currAsteroid = asteroids[asteroid];
-        console.log(currAsteroid);
         var localPivotPoint = new THREE.Object3D();
         scene.add(localPivotPoint);
 
@@ -311,7 +305,6 @@ function createAsteroids(asteroids) {
             asteroidMesh.castShadow = true;
             asteroidMesh.receiveShadow = true;
             var distance = Math.floor(Math.random() * (currAsteroid.upper - currAsteroid.lower) + currAsteroid.lower);
-            console.log(distance);
 
             // Compute position from distance + random angle
             var angle = Math.floor(Math.random() * 360) + 1;
@@ -390,7 +383,6 @@ sceneInit(canvasEl);
 window.addEventListener( 'resize', onWindowResize(canvasEl), false );
 createPlanets(planets);
 createAsteroids(asteroids);
-console.log(planetsInfos);
 animate();
 
 window.onload = function() {
