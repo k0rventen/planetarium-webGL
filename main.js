@@ -36,7 +36,7 @@ const details = document.getElementById('details');
 let planetsWanted = ['mercure', 'venus', 'terre', 'mars', 'jupiter', 'saturne', 'uranus', 'neptune'];
 const url = 'https://api.le-systeme-solaire.net/rest.php/bodies';
 planetsWanted.forEach((planetInfos) => {
-    selectPlanets[0].options.add(new Option(planetInfos, planetInfos));
+    selectPlanets[0].options.add(new Option(planetInfos.charAt(0).toUpperCase()+planetInfos.slice(1), planetInfos));
     fetch(url+'/'+planetInfos)
     .then(function(response) {
         if (response.status !== 200) {
