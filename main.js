@@ -170,9 +170,6 @@ function sceneInit(canvasEl) {
     camera.position.x = 40;
     camera.position.y = 40;
 
-    // INit the controls
-    controls = new THREE.OrbitControls(camera);
-
     // INit the webGL renderer
     //raycaster = new THREE.Raycaster();
     renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -180,6 +177,9 @@ function sceneInit(canvasEl) {
     renderer.setSize(canvasEl.offsetWidth, document.body.clientHeight);
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    // INit the controls
+    controls = new THREE.OrbitControls(camera, renderer.domElement);
 
     // Gamma
     renderer.gammaInput = true;
