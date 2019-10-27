@@ -377,15 +377,27 @@ function animate() {
     renderer.render(scene, camera);
 }
 
-
 const canvasEl = document.getElementById('canvas');
-sceneInit(canvasEl);
-window.addEventListener( 'resize', onWindowResize(canvasEl), false );
-createPlanets(planets);
-createAsteroids(asteroids);
-animate();
 
 window.onload = function() {
+    sceneInit(canvasEl);
+    window.addEventListener( 'resize', onWindowResize(canvasEl), false );
+    createPlanets(planets);
+    createAsteroids(asteroids);
+    animate();
+
+    selectPlanets[0].addEventListener( 'click', function (e) {
+        e.preventDefault();
+        var listPlanets = document.body.getElementsByClassName('planet');
+        for (let item of listPlanets) {
+            if (selectPlanets[0].value === item.dataset.id){
+                item.setAttribute("style", 'display:block;');
+            } else {
+                item.setAttribute("style", 'display:none;');
+            }
+        }
+    });
+
     if (document.addEventListener) {
         document.addEventListener('fullscreenchange', exitFullscreen, false);
         document.addEventListener('mozfullscreenchange', exitFullscreen, false);
